@@ -26,6 +26,11 @@ class CaesarAIGemini:
     img = Image.open(image_stream)
     response = self.vision_model.generate_content(img)
     return response.text
+  
+if __name__ == "__main__":
+  caesar = CaesarAIGemini()
+  for i in caesar.send_message("hi"):
+    print(i)
     
 
      
