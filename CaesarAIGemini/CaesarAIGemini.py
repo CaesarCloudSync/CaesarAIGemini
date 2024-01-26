@@ -3,12 +3,11 @@ import io
 import base64
 import json
 import google.generativeai as genai
-from dotenv import load_dotenv
 from PIL import Image
-load_dotenv("CaesarAIGemini/.env")
+
 class CaesarAIGemini:
   def __init__(self) -> None:
-    genai.configure(api_key = base64.b64decode(os.getenv("GOOGLE_AI_STUDIO_API_KEY").encode()).decode())
+    genai.configure(api_key = (os.getenv("GOOGLE_AI_STUDIO_API_KEY")))
 
     self.model = genai.GenerativeModel('gemini-pro')
     self.chat = self.model.start_chat(history=[])
