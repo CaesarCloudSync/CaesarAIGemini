@@ -5,6 +5,8 @@ import base64
 import hashlib
 import asyncio 
 import uvicorn
+import pandas as pd
+from typing import Annotated
 from dotenv import load_dotenv
 from fastapi import FastAPI, Header,Request,File, UploadFile,status,Form
 from fastapi.responses import StreamingResponse,FileResponse,Response
@@ -66,6 +68,33 @@ async def sendvision(file: UploadFile = File(...)):
     
             result = caesargemini.describe_image(img_content)
             return {"output_text":result}
+     
+  
+        except Exception as ex:
+            return {"error":f"{type(ex)},{ex}"}
+@app.post('/sendcsv')# GET # allow all origins all methods.
+async def sendcsv(message : Annotated[str, Form()],file: UploadFile = File(...)):
+        try:
+            csv_content =  await file.read()
+            csv_stream = io.BytesIO(csv_content)
+            csv_stream.seek(0)
+            df = pd.read_csv(csv_stream).head(30) 
+            if "statements" in df.columns:
+                return StreamingResponse(caesargemini.send_message_csv(df,message),media_type='text/event-stream')
+            else:
+                return {"error":"Make sure that there is a column with column name 'statements'."}
+                
+
+  
+                
+                
+
+            #result = caesargemini.send_message(message)
+
+#            
+
+    
+
      
   
         except Exception as ex:
