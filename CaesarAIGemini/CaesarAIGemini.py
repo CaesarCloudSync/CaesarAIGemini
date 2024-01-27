@@ -15,7 +15,10 @@ class CaesarAIGemini:
   def send_message(self,message):
     response = self.chat.send_message(message, stream=True)
     for chunk in response:
-      yield chunk.text
+      try:
+        yield chunk.text
+      except ValueError as vex:
+        yield ""
   def get_history(self):
    for message in self.chat.history:
      yield json.dumps({message.role:message.parts[0].text})
