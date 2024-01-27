@@ -7,7 +7,7 @@ from PIL import Image
 
 class CaesarAIGemini:
   def __init__(self) -> None:
-    genai.configure(api_key = "AIzaSyDZg_IxtCsgWys5rAbGCw39XAgbz8I10Ac")
+    genai.configure(api_key = (os.getenv("GOOGLE_AI_STUDIO_API_KEY")))
 
     self.model = genai.GenerativeModel('gemini-pro')
     self.chat = self.model.start_chat(history=[])
