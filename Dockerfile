@@ -1,7 +1,7 @@
 # Use the official Python 3.9 image
 FROM python:3.10
 RUN export PYTHONPATH=$PWD
-RUN apt-get update && apt-get install curllibsm6 libxext6 uvicorn -y
+RUN apt-get update && apt-get install uvicorn -y
 RUN pip install uvicorn
 RUN pip install pillow
 RUN pip install -q -U google-generativeai
